@@ -15,13 +15,13 @@
 
 <title>urban_data_classification</title>
 
-<script src="udc_files/header-attrs-2.25/header-attrs.js"></script>
-<script src="udc_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="index_files/header-attrs-2.25/header-attrs.js"></script>
+<script src="index_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="udc_files/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
-<script src="udc_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
-<script src="udc_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
-<script src="udc_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<link href="index_files/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
+<script src="index_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="index_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="index_files/bootstrap-3.3.5/shim/respond.min.js"></script>
 <style>h1 {font-size: 34px;}
        h1.title {font-size: 38px;}
        h2 {font-size: 30px;}
@@ -31,13 +31,13 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="udc_files/jqueryui-1.13.2/jquery-ui.min.js"></script>
-<link href="udc_files/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="udc_files/tocify-1.9.1/jquery.tocify.js"></script>
-<script src="udc_files/navigation-1.1/tabsets.js"></script>
-<script src="udc_files/navigation-1.1/codefolding.js"></script>
-<link href="udc_files/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
-<script src="udc_files/pagedtable-1.1/js/pagedtable.js"></script>
+<script src="index_files/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="index_files/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="index_files/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="index_files/navigation-1.1/tabsets.js"></script>
+<script src="index_files/navigation-1.1/codefolding.js"></script>
+<link href="index_files/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="index_files/pagedtable-1.1/js/pagedtable.js"></script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -2423,7 +2423,7 @@ similar, we join them then carry out the EDA properly.</p>
 <span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Frequency Distribution of Classes&quot;</span>)<span class="sc">+</span></span>
 <span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> frequency,</span>
 <span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a>                <span class="at">vjust =</span> <span class="fl">0.001</span>))</span></code></pre></div>
-<p><img src="udc_files/figure-html/class-freq-1.svg" width="672" /></p>
+<p><img src="index_files/figure-html/class-freq-1.svg" width="672" /></p>
 <p>The frequency shows there’s a class imbalance, which we have to take
 into consideration during data budgeting/splitting</p>
 </div>
@@ -2550,7 +2550,7 @@ into consideration during data budgeting/splitting</p>
 <span id="cb36-6"><a href="#cb36-6" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
 <span id="cb36-7"><a href="#cb36-7" tabindex="-1"></a>  <span class="fu">geom_line</span>()<span class="sc">+</span></span>
 <span id="cb36-8"><a href="#cb36-8" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>metric, <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>)</span></code></pre></div>
-<p><img src="udc_files/figure-html/knn-tuning-1.svg" width="672" /></p>
+<p><img src="index_files/figure-html/knn-tuning-1.svg" width="672" /></p>
 <p>The accuracy and area under the curve improved between 10 and 14
 neighbors. These values will be used for as the tune values.</p>
 </div>
@@ -2571,7 +2571,7 @@ neighbors. These values will be used for as the tune values.</p>
 <span id="cb37-13"><a href="#cb37-13" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Nearest Neighbor&quot;</span>,</span>
 <span id="cb37-14"><a href="#cb37-14" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;roc_auc&quot;</span>,</span>
 <span id="cb37-15"><a href="#cb37-15" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Area under curve based on Nearest neighbor&quot;</span>)</span></code></pre></div>
-<p><img src="udc_files/figure-html/unnamed-chunk-3-1.svg" width="672" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-3-1.svg" width="672" /></p>
 <p>The figure above shows how auc improves as the neighbors increases.
 The table below show the best number of neighbors to use for a the model
 using roc_auc as the metric of evaluation.</p>
@@ -2623,7 +2623,7 @@ metric or using roc_auc as the metric of model evaluation.</p>
 <span id="cb44-8"><a href="#cb44-8" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(values, mean, <span class="at">col =</span> parameter))<span class="sc">+</span></span>
 <span id="cb44-9"><a href="#cb44-9" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
 <span id="cb44-10"><a href="#cb44-10" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>parameter, <span class="at">scales =</span> <span class="st">&quot;free_x&quot;</span>)</span></code></pre></div>
-<p><img src="udc_files/figure-html/tune-viz-1.svg" width="672" /></p>
+<p><img src="index_files/figure-html/tune-viz-1.svg" width="672" /></p>
 <p>As seen above, the best tune value is between 4 to 10 for min_n and
 130 to 147 for mtry. We tune again using the combination of these
 values</p>
@@ -2658,7 +2658,7 @@ through to get the best roc_auc</p>
 <span id="cb47-6"><a href="#cb47-6" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(mtry, mean, <span class="at">col =</span> min_n))<span class="sc">+</span></span>
 <span id="cb47-7"><a href="#cb47-7" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
 <span id="cb47-8"><a href="#cb47-8" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code></pre></div>
-<p><img src="udc_files/figure-html/unnamed-chunk-9-1.svg" width="672" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-9-1.svg" width="672" /></p>
 <div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a>rf_tune_grid <span class="sc">%&gt;%</span> </span>
 <span id="cb48-2"><a href="#cb48-2" tabindex="-1"></a>  <span class="fu">show_best</span>(<span class="st">&quot;roc_auc&quot;</span>)</span></code></pre></div>
 <div data-pagedtable="false">
@@ -2704,7 +2704,7 @@ through to get the best roc_auc</p>
 <span id="cb53-3"><a href="#cb53-3" tabindex="-1"></a>  <span class="fu">fit</span>(class <span class="sc">~</span> .,</span>
 <span id="cb53-4"><a href="#cb53-4" tabindex="-1"></a>      <span class="at">data =</span> urban_train) <span class="sc">%&gt;%</span> </span>
 <span id="cb53-5"><a href="#cb53-5" tabindex="-1"></a>  <span class="fu">vip</span>(<span class="at">geom =</span> <span class="st">&quot;point&quot;</span>)</span></code></pre></div>
-<p><img src="udc_files/figure-html/feature-importance-1.svg" width="672" /></p>
+<p><img src="index_files/figure-html/feature-importance-1.svg" width="672" /></p>
 <div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" tabindex="-1"></a>rf_final_wf <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb54-2"><a href="#cb54-2" tabindex="-1"></a>  <span class="fu">add_recipe</span>(urban_train_rec) <span class="sc">%&gt;%</span> </span>
 <span id="cb54-3"><a href="#cb54-3" tabindex="-1"></a>  <span class="fu">add_model</span>(rf_final_model)</span>
@@ -2725,7 +2725,7 @@ through to get the best roc_auc</p>
 <pre><code>## New names:
 ## • `class` -&gt; `class...13`
 ## • `class` -&gt; `class...16`</code></pre>
-<p><img src="udc_files/figure-html/unnamed-chunk-12-1.svg" width="672" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-12-1.svg" width="672" /></p>
 <div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" tabindex="-1"></a>knn_predict <span class="ot">&lt;-</span> knn_final_res <span class="sc">%&gt;%</span> </span>
 <span id="cb57-2"><a href="#cb57-2" tabindex="-1"></a>  <span class="fu">collect_predictions</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb57-3"><a href="#cb57-3" tabindex="-1"></a>  <span class="fu">clean_names</span>()</span></code></pre></div>
@@ -2738,7 +2738,7 @@ through to get the best roc_auc</p>
 <pre><code>## New names:
 ## • `class` -&gt; `class...13`
 ## • `class` -&gt; `class...16`</code></pre>
-<p><img src="udc_files/figure-html/unnamed-chunk-14-1.svg" width="672" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-14-1.svg" width="672" /></p>
 <p>The number of wrong prediction reduces while using randomForest</p>
 <div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" tabindex="-1"></a>rf_predict <span class="ot">&lt;-</span> rf_final_res <span class="sc">%&gt;%</span></span>
 <span id="cb60-2"><a href="#cb60-2" tabindex="-1"></a>  <span class="fu">collect_predictions</span>() <span class="sc">%&gt;%</span> </span>
