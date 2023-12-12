@@ -10,13 +10,12 @@ output:
     dev: svg
     theme: simplex
     highlight: zenburn
+    self_contained: false
     code_folding: show
     df_print: paged
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = F, message = F, dpi = 360)
-
 library("tidyverse")
 library("janitor")
 library("tidymodels")
@@ -28,39 +27,42 @@ theme_set(theme_minimal())
 I want to build a model for the classification of different part of an [urban setting](https://raw.githubusercontent.com/xrander/urban_data_classification/master/Data%20Science/Personal%20Project/urban_data_classification/urban_data.csv). We can predict if an object is a car, tree, building, and so on using this model.
 
 # Exploratory Data Analysis
+
 The data is partitioned into test and train data already, but we will combine and resplit to prevent class imbalance of the outcomes
-```{r}
+
+```{r import-data}
 test_data <- read_csv("https://raw.githubusercontent.com/xrander/urban_data_classification/master/Data%20Science/Personal%20Project/urban_data_classification/testing.csv")
 
 train_data <- read_csv("https://raw.githubusercontent.com/xrander/urban_data_classification/master/Data%20Science/Personal%20Project/urban_data_classification/training.csv")
 ```
 
 First we compare the training and test data to see if they are similar, we join them then carry out the EDA properly.
+
 ```{r}
 compare_df_cols_same(test_data, train_data)
 ```
 
-
-```{r}
+```{r merge-data}
 urban_data <- bind_rows(train_data, test_data) %>% 
   clean_names() %>% 
   mutate_if(is.character, factor)
 ```
+
 We check for the data properties
+
 ```{r}
 skimr::skim(urban_data)
 ```
 
 There are no missing data, we check for duplicates
 
-```{r}
+```{r remove-duplicate}
 unique(duplicated(urban_data))
 
 urban_data <- urban_data[!duplicated(urban_data),]
 ```
 
-
-```{r}
+```{r class-freq}
 urban_data %>%
   group_by(class) %>% # group b
   summarize(frequency = n()) %>%
@@ -75,9 +77,9 @@ urban_data %>%
 
 The frequency shows there's a class imbalance, which we have to take into consideration during data budgeting/splitting
 
-
 # Data Budgeting
-```{r}
+
+```{r data-splitting}
 set.seed(120) # to ensure reproducibility
 
 urban_data_split <- initial_split(urban_data,
@@ -91,7 +93,8 @@ urban_test <- testing(urban_data_split)
 ```
 
 ### Feature Engineering
-```{r}
+
+```{r feature-engineering}
 urban_train_rec <-
   recipe(class ~., data = urban_train) %>% 
   step_zv(all_predictors()) %>% 
@@ -108,8 +111,10 @@ urban_train_juiced <- juice(urban_train_prep)
 # Build Models
 
 ## KNN Model
- KNN Modeling Workflow
-```{r}
+
+KNN Modeling Workflow
+
+```{r knn-workflow}
 knn_model <- nearest_neighbor(neighbors = tune(),
                               dist_power = 2,
                               engine = "kknn",
@@ -120,11 +125,11 @@ knn_workflow <- workflow() %>%
   add_recipe(urban_train_rec)
 ```
 
-
-
 ## Random Forest
+
 RF Modeling Workflow
-```{r}
+
+```{r rf-workflow}
 rf_model <- rand_forest(mode = "classification",
                        mtry = tune(),
                        trees = 1000,
@@ -137,7 +142,8 @@ rf_workflow <- workflow() %>%
 ```
 
 ## Resamples for Model Evaluation
-```{r}
+
+```{r resampling}
 set.seed(2344)
 
 urban_train_resample <- vfold_cv(urban_train, v = 10)
@@ -148,7 +154,8 @@ urban_train_resample
 # hyparameter Tuning
 
 ## KNN Hyperparameter Tuning
-```{r}
+
+```{r knn-tuning}
 set.seed(2333)
 doParallel::registerDoParallel() # for parallel computing
 
@@ -177,9 +184,11 @@ knn_tune %>%
   geom_line()+
   facet_wrap(~metric, scales = "free")
 ```
+
 The accuracy and area under the curve improved between 10 and 14 neighbors. These values will be used for as the tune values.
 
 ## KNN Hyperparameter grid search
+
 ```{r}
 knn_grid_search <- grid_regular(
   neighbors(range = c(10,14)),
@@ -197,8 +206,9 @@ autoplot(knn_tune_grid, metric = "roc_auc")+
        y = "roc_auc",
        title = "Area under curve based on Nearest neighbor")
 ```
- The figure above shows how auc improves as the neighbors increases. The table below show the best number of neighbors to use for a the model using roc_auc as the metric of evaluation.
- 
+
+The figure above shows how auc improves as the neighbors increases. The table below show the best number of neighbors to use for a the model using roc_auc as the metric of evaluation.
+
 ```{r}
 knn_tune_grid %>% 
   show_best("roc_auc")
@@ -208,7 +218,8 @@ knn_best_auc <- knn_tune_grid %>%
 ```
 
 ## RF Hyperparameter Tuning
-```{r}
+
+```{r rf-tuning}
 set.seed(234)
 
 rf_tune <- tune_grid(
@@ -219,19 +230,20 @@ rf_tune <- tune_grid(
 ```
 
 We can choose the best value to use either using accuracy as the metric or using roc_auc as the metric of model evaluation.
+
 ```{r}
 rf_tune %>% 
   collect_metrics()
 ```
 
 The best 5 values for mtry and min_n combination when grid is set to 20 is show below
+
 ```{r}
 rf_tune %>% 
   show_best("roc_auc")
 ```
 
-
-```{r}
+```{r tune-viz}
 rf_tune %>% 
   collect_metrics() %>% 
   filter(.metric == "roc_auc") %>% 
@@ -243,9 +255,11 @@ rf_tune %>%
   geom_point()+
   facet_wrap(~parameter, scales = "free_x")
 ```
+
 As seen above, the best tune value is between 4 to 10 for min_n and 130 to 147 for mtry. We tune again using the combination of these values
 
 ## RF Tuning with Grid Search
+
 ```{r}
 set.seed(345)
 
@@ -259,6 +273,7 @@ rf_grid
 ```
 
 rf_grid displays the number of combination of mtry and min_n to fit through to get the best roc_auc
+
 ```{r}
 rf_tune_grid <- tune_grid(rf_workflow,
                             resamples = urban_train_resample,
@@ -289,8 +304,10 @@ best_tune_auc <- rf_tune_grid %>%
 ```
 
 ## Create workflow for using Best Values
+
 knn
-```{r}
+
+```{r knn-fit}
 knn_final_model <- 
   finalize_model(
     knn_model,
@@ -306,7 +323,8 @@ knn_final_res <- knn_final_wf %>%
 ```
 
 rf
-```{r}
+
+```{r rf-fit}
 rf_final_model <-
   finalize_model(
     rf_model,
@@ -315,14 +333,14 @@ rf_final_model <-
 ```
 
 ### Feature importance
-```{r}
+
+```{r feature-importance}
 rf_final_model %>% 
   set_engine("ranger", importance ="permutation") %>% 
   fit(class ~ .,
       data = urban_train) %>% 
   vip(geom = "point")
 ```
-
 
 ```{r}
 rf_final_wf <- workflow() %>% 
@@ -334,6 +352,7 @@ rf_final_res <- rf_final_wf %>%
 ```
 
 # Model Evaluation
+
 ```{r}
 knn_final_res %>% 
   collect_predictions() %>% 
@@ -342,7 +361,6 @@ knn_final_res %>%
   ggplot(aes(ndvi, mean_g, col = prediction))+
   geom_point(alpha = 0.7)
 ```
-
 
 ```{r}
 knn_predict <- knn_final_res %>% 
@@ -358,7 +376,9 @@ rf_final_res %>%
   ggplot(aes(ndvi,mean_g, color =prediction))+
   geom_point(alpha = 0.7)
 ```
+
 The number of wrong prediction reduces while using randomForest
+
 ```{r}
 rf_predict <- rf_final_res %>%
   collect_predictions() %>% 
@@ -366,12 +386,14 @@ rf_predict <- rf_final_res %>%
 ```
 
 ## Confusion Matrix
+
 ```{r}
 conf_mat(knn_predict, truth = class, estimate = pred_class)
 conf_mat(rf_predict, truth = class, estimate = pred_class)
 ```
 
 ## Sensitivity
+
 ```{r}
 ## Knn
 sens(knn_predict, truth = class, estimate = pred_class)
@@ -381,6 +403,7 @@ sens(rf_predict, truth = class, estimate = pred_class)
 ```
 
 ## Accuracy
+
 ```{r}
 accuracy(knn_predict, truth = class, estimate = pred_class)
 
@@ -388,4 +411,5 @@ accuracy(rf_predict, truth = class, estimate = pred_class)
 ```
 
 # Conclusion
-Both algorithms were able to produce reliable predictions for the urban class. The random forest  algorithm model confusion matrix show little misclassification, better sensitivity and accuracy compared to knn algorithm model. If this is to be deployed into production the randomForest model should be choosen.
+
+Both algorithms were able to produce reliable predictions for the urban class. The random forest algorithm model confusion matrix show little misclassification, better sensitivity and accuracy compared to knn algorithm model. If this is to be deployed into production the randomForest model should be choosen.

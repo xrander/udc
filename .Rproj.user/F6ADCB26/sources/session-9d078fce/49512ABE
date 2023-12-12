@@ -3,7 +3,7 @@
     "path": "~/Documents/Data Science/Personal Project/udc/udc.rmd",
     "project_path": "udc.rmd",
     "type": "r_markdown",
-    "hash": "0",
+    "hash": "3264286282",
     "contents": "",
     "dirty": false,
     "created": 1702351086680.0,
@@ -12,15 +12,21 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "16,27",
-        "scrollLine": "0"
+        "cursorPosition": "12,25",
+        "scrollLine": "0",
+        "last_setup_crc32": "9d078fce282fe0f3",
+        "rmdVisualMode": "false",
+        "rmdVisualWrapConfigured": "true",
+        "docOutlineVisible": "1",
+        "rmdVisualModeLocation": "6689:244",
+        "rmdVisualCollapsedChunks": ""
     },
     "folds": "",
-    "lastKnownWriteTime": 1702347254,
+    "lastKnownWriteTime": 1702356638,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1702347254,
+    "last_content_update": 1702356639016,
     "read_only": false,
     "read_only_alternatives": []
 }
